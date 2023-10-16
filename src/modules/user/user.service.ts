@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, HttpCode, Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { HashService } from '../auth/hash/hash.service';
@@ -11,6 +11,12 @@ export class UserService {
   ) {}
 
   async createUser(data: CreateUserDTO) {
+    const user = await this.getUserByEmail(data.email);
+
+    if (user) {
+      throw new BadRequestException('E-mail já cadastrado');
+    }
+
     const hashedPassword = await this.hashService.hashPassword(data.password);
 
     Object.assign(data, { password: hashedPassword });
