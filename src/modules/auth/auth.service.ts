@@ -21,8 +21,12 @@ export class AuthService {
 
   async login(user: { email: string; password: string }) {
     const payload = { email: user.email, sub: user.password };
+
+    const userData = await this.userService.getUserByEmail(user.email);
+
     return {
       access_token: this.jwtService.sign(payload),
+      fullName: userData?.fullName,
     };
   }
 }
