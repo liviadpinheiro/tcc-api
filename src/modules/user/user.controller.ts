@@ -1,25 +1,59 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CreateUserDTO, createUserSchema } from './dto/create-user.dto';
+import { ZodValidationPipe } from 'src/pipes/ZodValidationPipe';
+import { UpdateUserDTO, updateUserSchema } from './dto/update-user.dto';
+import { UUID } from 'crypto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() data: CreateUserDTO) {
-    return this.userService.createUser(data);
+  @UsePipes(new ZodValidationPipe(createUserSchema))
+  create(@Body() createUserDto: CreateUserDTO) {
+    try {
+      return this.userService.create(createUserDto);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @Get()
-  async getUsers() {
-    return this.userService.getUsers();
+  findAll() {
+    try {
+      return this.userService.findAll();
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':email')
-  async getUserByEmail(@Param('email') email: string) {
-    return this.userService.getUserByEmail(email);
+  @Patch(':id')
+  @UsePipes(new ZodValidationPipe(updateUserSchema))
+  update(@Param('id') id: UUID, @Body() updateUserDto: UpdateUserDTO) {
+    try {
+      return this.userService.update(id, updateUserDto);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: UUID) {
+    try {
+      return this.userService.remove(id);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }

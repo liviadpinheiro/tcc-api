@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -11,7 +12,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.getUserByEmail(email);
+    const user = await this.userService.findByEmail(email);
     if (user && bcrypt.compareSync(password, user.password)) {
       const { password, ...result } = user;
       return result;
@@ -22,7 +23,7 @@ export class AuthService {
   async login(user: { email: string; password: string }) {
     const payload = { email: user.email, sub: user.password };
 
-    const userData = await this.userService.getUserByEmail(user.email);
+    const userData = await this.userService.findByEmail(user.email);
 
     return {
       access_token: this.jwtService.sign(payload),

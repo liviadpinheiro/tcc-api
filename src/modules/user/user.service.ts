@@ -1,17 +1,19 @@
-import { BadRequestException, HttpCode, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { HashService } from '../auth/hash/hash.service';
+import { UUID } from 'crypto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    private repository: UserRepository,
+    private userRepository: UserRepository,
     private hashService: HashService,
   ) {}
 
-  async createUser(data: CreateUserDTO) {
-    const user = await this.getUserByEmail(data.email);
+  async create(data: CreateUserDTO) {
+    const user = await this.findByEmail(data.email);
 
     if (user) {
       throw new BadRequestException('E-mail já cadastrado');
@@ -21,11 +23,11 @@ export class UserService {
 
     Object.assign(data, { password: hashedPassword });
 
-    return this.repository.createUser(data);
+    return this.userRepository.create(data);
   }
 
   async validateUser(email: string, plainPassword: string): Promise<boolean> {
-    const user = await this.repository.user({ email });
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
       return false;
@@ -35,14 +37,23 @@ export class UserService {
       plainPassword,
       user.password,
     );
+
     return isValid;
   }
 
-  async getUsers() {
-    return this.repository.users();
+  async findAll() {
+    return this.userRepository.findAll();
   }
 
-  async getUserByEmail(email: string) {
-    return this.repository.user({ email });
+  async findByEmail(email: string) {
+    return this.userRepository.findByEmail(email);
+  }
+
+  update(id: UUID, updateUserDto: UpdateUserDTO) {
+    return this.userRepository.update(id, updateUserDto);
+  }
+
+  remove(id: UUID) {
+    return this.userRepository.remove(id);
   }
 }
