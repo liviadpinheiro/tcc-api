@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  seed = "src/database/seeds/seed.ts"
 }
 
 datasource db {
