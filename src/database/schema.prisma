@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  seed = "src/database/seeds/seed.ts"
+  seed     = "src/database/seeds/seed.ts"
 }
 
 datasource db {
@@ -9,20 +9,21 @@ datasource db {
 }
 
 model Deck {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  imageUrl    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  card        Card[]
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  imageUrl      String
+  imagePosition String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  card          Card[]
 }
 
 model Card {
   id        String   @id @default(uuid())
   name      String
   number    Int
-  imageUrl     String
+  imageUrl  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deck      Deck     @relation(fields: [deck_id], references: [id])

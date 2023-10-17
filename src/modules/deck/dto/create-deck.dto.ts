@@ -15,6 +15,10 @@ export const createDeckSchema = z.object({
       invalid_type_error: 'description must be a string',
     })
     .url({ message: 'The provided string is not a valid URL' }),
+  imagePosition: z.string({
+    required_error: 'description is required',
+    invalid_type_error: 'description must be a string',
+  }),
 });
 
 export type CreateDeckDTO = z.infer<typeof createDeckSchema>;
