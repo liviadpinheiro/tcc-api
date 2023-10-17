@@ -9,11 +9,12 @@ import { UpdateDeckDTO } from './dto/update-deck.dto';
 export class DeckRepository {
   constructor(private prisma: PrismaService) {}
 
-  create({ name, description }: CreateDeckDTO): Promise<Deck> {
+  create({ name, description, imageUrl }: CreateDeckDTO): Promise<Deck> {
     return this.prisma.deck.create({
       data: {
         name,
         description,
+        imageUrl,
       },
     });
   }

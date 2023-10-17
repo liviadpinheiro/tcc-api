@@ -3,6 +3,7 @@ CREATE TABLE "Deck" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -14,7 +15,7 @@ CREATE TABLE "Card" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "number" INTEGER NOT NULL,
-    "image" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deck_id" TEXT NOT NULL,

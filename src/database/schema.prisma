@@ -12,6 +12,7 @@ model Deck {
   id          String   @id @default(uuid())
   name        String
   description String
+  imageUrl    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   card        Card[]
@@ -21,7 +22,7 @@ model Card {
   id        String   @id @default(uuid())
   name      String
   number    Int
-  image     String
+  imageUrl     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deck      Deck     @relation(fields: [deck_id], references: [id])
