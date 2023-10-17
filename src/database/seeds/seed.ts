@@ -4,7 +4,7 @@ import { deckSeed } from './deck.seed';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.deck.createMany({ data: deckSeed });
+  await prisma.deck.createMany({ data: deckSeed, skipDuplicates: true });
 }
 
 main()
