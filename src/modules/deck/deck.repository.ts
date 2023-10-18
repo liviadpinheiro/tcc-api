@@ -39,7 +39,7 @@ export class DeckRepository {
   }
 
   remove(id: UUID) {
-    return this.prisma.user.delete({
+    return this.prisma.deck.delete({
       where: {
         id,
       },
