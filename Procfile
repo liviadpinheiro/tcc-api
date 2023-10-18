@@ -1,1 +1,1 @@
-web: npm run start:prod
+web: npm ci && npx prisma generate && npm run build --if-present && npx prisma migrate deploy && npx prisma db seed && npm run start:prod
