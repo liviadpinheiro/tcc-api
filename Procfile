@@ -1,1 +1,1 @@
-web: npm ci && npm install -g @nestjs/cli && npx prisma generate && npm run build --if-present && npx prisma migrate deploy && npx prisma db seed && npm run start:prod
+web: npm run start:prod
