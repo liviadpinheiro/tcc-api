@@ -6,17 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
 } from '@nestjs/common';
 import { CardService } from './card.service';
-import { CreateCardDTO } from './dto/create-card.dto';
-import { UpdateCardDTO } from './dto/update-card.dto';
+import { CreateCardDTO, createCardSchema } from './dto/create-card.dto';
+import { UpdateCardDTO, updateCardSchema } from './dto/update-card.dto';
 import { UUID } from 'crypto';
+import { ZodValidationPipe } from 'src/pipes/ZodValidationPipe';
 
 @Controller('card')
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
   @Post()
+  @UsePipes(new ZodValidationPipe(createCardSchema))
   create(@Body() createCardDto: CreateCardDTO) {
     return this.cardService.create(createCardDto);
   }
@@ -37,6 +40,7 @@ export class CardController {
   }
 
   @Patch(':id')
+  @UsePipes(new ZodValidationPipe(updateCardSchema))
   update(@Param('id') id: UUID, @Body() updateCardDto: UpdateCardDTO) {
     return this.cardService.update(id, updateCardDto);
   }

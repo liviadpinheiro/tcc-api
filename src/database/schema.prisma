@@ -43,6 +43,8 @@ model Notes {
   card_id                String
   user                   User    @relation(fields: [user_id], references: [id])
   user_id                String
+
+  @@unique([card_id, user_id], name: "card_id_user_id")
 }
 
 model User {
