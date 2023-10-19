@@ -26,6 +26,11 @@ export class ContactController {
     return this.contactService.findAll();
   }
 
+  @Get('testimonials')
+  findTestimonials() {
+    return this.contactService.findTestimonials();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: UUID) {
     return this.contactService.findOne(id);

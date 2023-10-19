@@ -33,6 +33,16 @@ export class ContactRepository {
     return this.prisma.contact.findMany();
   }
 
+  findTestimonials(): Promise<Contact[]> {
+    return this.prisma.contact.findMany({
+      where: {
+        theme: 'relato',
+        isValidTestimonial: true,
+      },
+      take: 3,
+    });
+  }
+
   findOne(id: UUID): Promise<Contact | null> {
     return this.prisma.contact.findUnique({
       where: {

@@ -16,6 +16,10 @@ export class ContactService {
     return this.contactRepository.findAll();
   }
 
+  findTestimonials() {
+    return this.contactRepository.findTestimonials();
+  }
+
   findOne(id: UUID) {
     return this.contactRepository.findOne(id);
   }
