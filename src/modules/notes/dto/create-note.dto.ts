@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
 export const createNoteSchema = z.object({
-  meaning: z.string(),
-  keywords: z.string(),
-  elements_meaning: z.string(),
-  specific_meaning: z.string(),
-  related_theme: z.string(),
-  additional_observation: z.string(),
+  meaning: z.string().optional(),
+  keywords: z.string().optional(),
+  elements_meaning: z.string().optional(),
+  specific_meaning: z.string().optional(),
+  related_theme: z.string().optional(),
+  additional_observation: z.string().optional(),
   card_id: z
     .string({
       required_error: 'card_id is required',
