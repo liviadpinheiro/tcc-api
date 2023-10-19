@@ -20,11 +20,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
     - run: npm ci
-    - run: npm install -g @nestjs/cli
-    - run: npx prisma generate
     - run: npm run build --if-present
-    - run: npx prisma migrate deploy
-    - run: npx prisma db seed
 
   deploy:
     needs: build
