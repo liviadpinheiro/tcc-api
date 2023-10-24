@@ -6,6 +6,7 @@ import { EmailService } from '../email/email.service';
 import { ThrottleService } from '../throttle/throttle.service';
 import { ThrottleType } from '../throttle/enum/throttle.enum';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -31,11 +32,11 @@ export class UserService {
     return this.userRepository.create(data);
   }
 
-  async validateUser(email: string, plainPassword: string): Promise<boolean> {
+  async validateUser(email: string, plainPassword: string): Promise<User> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      return false;
+      throw new BadRequestException('E-mail ou senha incorretos');
     }
 
     const isValid = await this.hashService.comparePasswords(
@@ -43,7 +44,11 @@ export class UserService {
       user.password,
     );
 
-    return isValid;
+    if (!isValid) {
+      throw new BadRequestException('E-mail ou senha incorretos');
+    }
+
+    return user;
   }
 
   async recoverPassword(email: string) {

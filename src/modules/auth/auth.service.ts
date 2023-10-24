@@ -22,11 +22,10 @@ export class AuthService {
   }
 
   async login(user: { email: string; password: string }) {
-    const userData = await this.userService.findByEmail(user.email);
-
-    if (!userData) {
-      throw new BadRequestException('E-mail não encontrado na plataforma');
-    }
+    const userData = await this.userService.validateUser(
+      user.email,
+      user.password,
+    );
 
     const throttle = await this.throttleService.create(
       userData.id,
