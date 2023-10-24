@@ -75,7 +75,7 @@ export class UserService {
 
     if (isTokenExpired) {
       throw new BadRequestException(
-        'Token expirado, peça a recuperação da senha novamente.',
+        'Token inválido, peça a recuperação da senha novamente.',
       );
     }
 
