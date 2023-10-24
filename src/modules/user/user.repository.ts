@@ -3,7 +3,6 @@ import { User } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UUID } from 'crypto';
-import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -39,17 +38,11 @@ export class UserRepository {
     return this.prisma.user.findMany();
   }
 
-  async update(id: UUID, updateUserDto: UpdateUserDTO): Promise<User> {
+  async updatePassword(id: UUID, password: string): Promise<User> {
     return this.prisma.user.update({
-      data: updateUserDto,
-      where: {
-        id,
+      data: {
+        password,
       },
-    });
-  }
-
-  async remove(id: UUID): Promise<User> {
-    return this.prisma.user.delete({
       where: {
         id,
       },

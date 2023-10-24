@@ -2,9 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Delete,
   Get,
-  Param,
   Patch,
   Post,
   UsePipes,
@@ -12,8 +10,6 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDTO, createUserSchema } from './dto/create-user.dto';
 import { ZodValidationPipe } from 'src/pipes/ZodValidationPipe';
-import { UpdateUserDTO, updateUserSchema } from './dto/update-user.dto';
-import { UUID } from 'crypto';
 
 @Controller('user')
 export class UserController {
@@ -29,6 +25,15 @@ export class UserController {
     }
   }
 
+  @Post('recover-password')
+  recoverPassword(@Body() data: { email: string }) {
+    try {
+      return this.userService.recoverPassword(data.email);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   @Get()
   findAll() {
     try {
@@ -38,20 +43,10 @@ export class UserController {
     }
   }
 
-  @Patch(':id')
-  @UsePipes(new ZodValidationPipe(updateUserSchema))
-  update(@Param('id') id: UUID, @Body() updateUserDto: UpdateUserDTO) {
+  @Patch('update-password')
+  updatePassword(@Body() data: { token: string; password: string }) {
     try {
-      return this.userService.update(id, updateUserDto);
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: UUID) {
-    try {
-      return this.userService.remove(id);
+      return this.userService.updatePassword(data.token, data.password);
     } catch (error) {
       throw new BadRequestException(error.message);
     }

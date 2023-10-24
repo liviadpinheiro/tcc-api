@@ -6,6 +6,9 @@ import { DeckModule } from './modules/deck/deck.module';
 import { CardModule } from './modules/card/card.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { EmailService } from './modules/email/email.service';
+import { EmailModule } from './modules/email/email.module';
+import { ThrottleModule } from './modules/throttle/throttle.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { ContactModule } from './modules/contact/contact.module';
     CardModule,
     NotesModule,
     ContactModule,
+    EmailModule,
+    ThrottleModule,
   ],
+  providers: [EmailService],
 })
 export class AppModule {}

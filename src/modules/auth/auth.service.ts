@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcryptjs';
+import { ThrottleService } from '../throttle/throttle.service';
+import { ThrottleType } from '../throttle/enum/throttle.enum';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService,
+    private throttleService: ThrottleService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -21,14 +22,21 @@ export class AuthService {
   }
 
   async login(user: { email: string; password: string }) {
-    const payload = { email: user.email, sub: user.password };
-
     const userData = await this.userService.findByEmail(user.email);
 
+    if (!userData) {
+      throw new BadRequestException('E-mail não encontrado na plataforma');
+    }
+
+    const throttle = await this.throttleService.create(
+      userData.id,
+      ThrottleType.LOGIN,
+    );
+
     return {
-      access_token: this.jwtService.sign(payload),
-      fullName: userData?.fullName,
-      id: userData?.id,
+      access_token: throttle.token,
+      fullName: userData.fullName,
+      id: userData.id,
     };
   }
 }

@@ -48,13 +48,14 @@ model Notes {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   fullName  String
   cpf       String
   password  String
-  email     String   @unique
+  email     String     @unique
   birthdate DateTime
   notes     Notes[]
+  Throttle  Throttle[]
 }
 
 model Contact {
@@ -65,4 +66,12 @@ model Contact {
   state              String?
   theme              String
   isValidTestimonial Boolean @default(false)
+}
+
+model Throttle {
+  id      String @id @default(uuid())
+  token   String @unique
+  type    String
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
 }

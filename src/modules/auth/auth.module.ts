@@ -9,6 +9,9 @@ import { UserRepository } from '../user/user.repository';
 import { PrismaService } from 'src/database/prisma.service';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './local.strategy';
+import { EmailService } from '../email/email.service';
+import { ThrottleService } from '../throttle/throttle.service';
+import { ThrottleRepository } from '../throttle/throttle.repository';
 
 @Module({
   imports: [
@@ -26,8 +29,11 @@ import { LocalStrategy } from './local.strategy';
     UserRepository,
     PrismaService,
     LocalStrategy,
+    EmailService,
+    ThrottleService,
+    ThrottleRepository,
   ],
-  exports: [AuthService],
+  exports: [AuthService, HashService],
   controllers: [AuthController],
 })
 export class AuthModule {}
