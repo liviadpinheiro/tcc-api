@@ -39,7 +39,7 @@ export class EmailService {
     const html = compiledTemplate({ name, resetLink });
 
     const mailOptions = {
-      from: 'your-email@gmail.com',
+      from: process.env.EMAIL,
       to: email,
       subject: 'Recuperação de Senha',
       html: html,
