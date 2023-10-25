@@ -32,7 +32,7 @@ export class EmailService {
   async sendResetPasswordMail(name: string, email: string, resetLink: string) {
     const templatePath = path.join(
       __dirname,
-      '..',
+      '.',
       'template',
       'recover-password.hbs',
     );
