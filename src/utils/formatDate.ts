@@ -11,11 +11,9 @@ export const formatDate = (inputString?: string): string => {
 
   const dateObj = new Date(year, month - 1, day);
 
-  const formattedDate = dateObj.toLocaleString('pt-BR', {
+  return dateObj.toLocaleString('pt-BR', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
   });
-
-  return formattedDate.replace(/\//g, '-');
 };
