@@ -32,19 +32,13 @@ export class SpreadService {
     const page = await browser.newPage();
 
     await page.setContent(htmlContent);
-    const pdfName = `spread_${new Date()
-      .toISOString()
-      .replace(/[:T\-]/g, '')}.pdf`;
-    const pdfPath = path.join(__dirname, pdfName);
-
-    await page.pdf({
+    const pdf = await page.pdf({
       format: 'A4',
-      path: pdfPath,
       printBackground: true,
     });
 
     await browser.close();
 
-    return `PDF saved at: ${pdfPath}`;
+    return pdf;
   }
 }
