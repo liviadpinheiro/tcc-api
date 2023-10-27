@@ -9,6 +9,7 @@ import { ContactModule } from './modules/contact/contact.module';
 import { EmailService } from './modules/email/email.service';
 import { EmailModule } from './modules/email/email.module';
 import { ThrottleModule } from './modules/throttle/throttle.module';
+import { SpreadModule } from './modules/spread/spread.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ThrottleModule } from './modules/throttle/throttle.module';
     ContactModule,
     EmailModule,
     ThrottleModule,
+    SpreadModule,
   ],
   providers: [EmailService],
 })
