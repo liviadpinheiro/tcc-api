@@ -4,14 +4,14 @@ import * as puppeteer from 'puppeteer';
 import * as Handlebars from 'handlebars';
 import * as fs from 'fs';
 import * as path from 'path';
-import { formatDate } from 'src/utils/formatData';
+import { formatDate } from 'src/utils/formatDate';
 
 @Injectable()
 export class SpreadService {
   async generatePDF(data: CreateSpreadDTO) {
     Object.assign(data, {
-      spreadDate: formatDate(new Date()),
-      consultantBirthdate: formatDate(new Date(data.consultantBirthdate)),
+      spreadDate: formatDate(),
+      consultantBirthdate: formatDate(data.consultantBirthdate),
     });
 
     const templatePath = path.join(
