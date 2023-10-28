@@ -28,7 +28,15 @@ export class SpreadService {
 
     const htmlContent = Handlebars.compile(source)(data);
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--headless',
+        '--disable-gpu',
+      ],
+      executablePath: process.env.CHROME_BIN || undefined,
+    });
     const page = await browser.newPage();
 
     await page.setContent(htmlContent);
