@@ -10,10 +10,20 @@ import { EmailService } from './modules/email/email.service';
 import { EmailModule } from './modules/email/email.module';
 import { ThrottleModule } from './modules/throttle/throttle.module';
 import { SpreadModule } from './modules/spread/spread.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    MailerModule.forRoot({
+      transport: {
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
+    }),
     UserModule,
     AuthModule,
     DeckModule,
