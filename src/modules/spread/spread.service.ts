@@ -35,7 +35,7 @@ export class SpreadService {
         '--headless',
         '--disable-gpu',
       ],
-      executablePath: process.env.CHROME_BIN || undefined,
+      executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome',
     });
     const page = await browser.newPage();
 
