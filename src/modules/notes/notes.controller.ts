@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UsePipes,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
@@ -41,10 +40,5 @@ export class NotesController {
   @UsePipes(new ZodValidationPipe(updateNoteSchema))
   update(@Param('id') id: UUID, @Body() updateNoteDto: UpdateNoteDTO) {
     return this.notesService.update(id, updateNoteDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: UUID) {
-    return this.notesService.remove(id);
   }
 }

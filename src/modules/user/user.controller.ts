@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   Patch,
   Post,
   UsePipes,
@@ -29,15 +28,6 @@ export class UserController {
   recoverPassword(@Body() data: { email: string }) {
     try {
       return this.userService.recoverPassword(data.email);
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
-
-  @Get()
-  findAll() {
-    try {
-      return this.userService.findAll();
     } catch (error) {
       throw new BadRequestException(error.message);
     }

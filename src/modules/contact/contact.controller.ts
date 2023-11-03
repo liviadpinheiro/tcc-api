@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactDTO } from './dto/create-contact.dto';
-import { UpdateContactDTO } from './dto/update-contact.dto';
 import { UUID } from 'crypto';
 
 @Controller('contact')
@@ -36,18 +27,8 @@ export class ContactController {
     return this.contactService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: UUID, @Body() updateContactDto: UpdateContactDTO) {
-    return this.contactService.update(id, updateContactDto);
-  }
-
   @Patch('/validate-testimonial/:id')
   validateTestimonial(@Param('id') id: UUID) {
     return this.contactService.validateTestimonial(id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: UUID) {
-    return this.contactService.remove(id);
   }
 }
